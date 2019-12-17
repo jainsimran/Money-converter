@@ -7,7 +7,10 @@ export default class App extends Component {
     this.state= {
       inputAmount: 0,
       isConvert: false,
-      result: 0
+      candianCurr: 0,
+      usdCurr: 0,
+      mexicanCurr: 0,
+      indianCurr: 0 
     }
     this.convertMoney= this.convertMoney.bind(this);
   }
@@ -19,10 +22,21 @@ export default class App extends Component {
     })
     .then(result => {
       console.log(result);
-      let resultAmount = this.state.result;
+      let cadianResult = this.state.candianCurr;
+      let usdResult = this.state.usdCurr;
+      let mexicanResult = this.state.mexicanCurr;
+      let indianResult = this.state.indianCurr;
       let inputAmt = this.state.inputAmount;
-      resultAmount = inputAmt * result.rates.CAD;
-      this.setState({ result:resultAmount.toFixed(2) })
+      cadianResult = inputAmt * result.rates.CAD;
+      usdResult = inputAmt * result.rates.USD;
+      mexicanResult = inputAmt * result.rates.MXN;
+      indianResult = inputAmt * result.rates.INR;
+      this.setState({ 
+        candianCurr: cadianResult.toFixed(2),
+        usdCurr: usdResult.toFixed(2),
+        mexicanCurr: mexicanResult.toFixed(2),
+        indianCurr: indianResult.toFixed(2)
+      })
     })
     .catch(err => {
       console.log('Something bad happened!');
@@ -32,12 +46,13 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        Enter US dollar = 
+        Enter US dollar 
         <input type="text" value={this.state.inputAmount} placeholder = "enter US dollars" onChange={(e) => this.setState({inputAmount: e.target.value})}></input>
-        <button onClick={this.convertMoney}> convert to CAD </button>
-
-        {this.isConvert ? <h1>Canadian dollars = {this.state.result}</h1> : <h1>Canadian dollars = {this.state.result}</h1> }
-        {/* {this.isConvert ? <h1>Canadian dollars is {this.result}</h1> : <h1> Enter values to convert</h1> } */}
+        <button onClick={this.convertMoney}> convert </button>
+        <p>Canadian = {this.state.candianCurr}</p> 
+        <p>USD = {this.state.usdCurr} </p>
+        <p>Mexican peso = {this.state.mexicanCurr} </p>
+        <p>Indian rupess = {this.state.indianCurr} </p>
       </div>
     )
   }
